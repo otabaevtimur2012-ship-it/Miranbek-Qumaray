@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="uz" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miron & Qumaray — Zamonaviy To'y Taklifnomasi</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Syncopate, Plus Jakarta Sans, Cormorant Garamond -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#0b0c10',
+                            800: '#12141c',
+                            700: '#1a1d28',
+                        },
+                        lux: {
+                            gold: '#d4af37',
+                            lightGold: '#f3e5ab',
+                            accent: '#e2b04c',
+                        }
+                    },
+                    fontFamily: {
+                        modern: ['"Syncopate"', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Glassmorphism effects */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+        .glass-card-hover {
+            transition: all 0.4s ease;
+        }
+        .glass-card-hover:hover {
+            border-color: rgba(212, 175, 55, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.2);
+        }
+        
+        /* Modern Glowing Gradient Text */
+        .gold-glow-text {
+            background: linear-gradient(135deg, #FFFFFF 0%, #F3E5AB 40%, #E2B04C 70%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine {
+            0%, 100% {
+                filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
+            }
+            50% {
+                filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.8));
+            }
+        }
+
+        .pulse-element {
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .page-transition {
+            animation: fadeInScale 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.96) translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .gold-button {
+            background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%);
+            transition: all 0.3s ease;
+        }
+        .gold-button:hover {
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+            transform: scale(1.02);
+        }
+
+        /* Particle Canvas Background */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0c10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-gray-200 font-sans antialiased overflow-x-hidden relative">
+
+    <!-- Interactive Background Canvas -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Navigatsiya (Fixed Navigation Header) -->
+    <nav class="fixed top-0 left-0 w-full bg-dark-900/80 backdrop-blur-xl border-b border-white/5 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="javascript:void(0)" onclick="goToPage(1)" class="font-modern font-bold text-lg md:text-xl tracking-widest text-white flex items-center gap-2">
+                <span class="text-lux-gold">M</span><span class="text-xs text-gray-500">&</span><span class="text-lux-gold">Q</span>
+            </a>
+            
+            <!-- Page Step Indicator -->
+            <div class="flex items-center gap-2 text-xs font-modern uppercase tracking-widest text-gray-400">
+                <button onclick="goToPage(1)" id="nav-btn-1" class="px-3 py-1 rounded-full border border-lux-gold text-lux-gold transition">1. Bosh bet</button>
+                <button onclick="goToPage(2)" id="nav-btn-2" class="px-3 py-1 rounded-full border border-transparent hover:text-lux-gold transition">2. Taklif</button>
+                <button onclick="goToPage(3)" id="nav-btn-3" class="px-3 py-1 rounded-full border border-transparent hover:text-lux-gold transition">3. Dastur</button>
+                <button onclick="goToPage(4)" id="nav-btn-4" class="px-3 py-1 rounded-full border border-transparent hover:text-lux-gold transition">4. Galereya & RSVP</button>
+            </div>
+
+            <!-- Audio Player -->
+            <button id="musicBtn" onclick="toggleAudio()" class="relative w-11 h-11 rounded-full glass-card text-lux-gold flex items-center justify-center hover:bg-lux-gold hover:text-dark-900 transition duration-300 shadow-[0_0_15px_rgba(212,175,55,0.4)] animate-pulse">
+                <i id="musicIcon" class="fa-solid fa-music"></i>
+                <span id="musicRipple" class="absolute -inset-1 rounded-full border border-lux-gold/50 animate-ping opacity-75"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- SAHIFALAR KONTEYNERI -->
+    <main class="min-h-screen pt-20 pb-12 flex flex-col justify-center items-center relative z-10">
+
+        <!-- 1-SAHIFA: Hero (Asosiy Sahifa) -->
+        <section id="page-1" class="w-full max-w-4xl px-6 py-8 flex flex-col items-center justify-center text-center page-transition">
+            <div class="w-full glass-card p-8 md:p-14 rounded-3xl relative overflow-hidden pulse-element">
+                <div class="absolute -top-24 -left-24 w-48 h-48 bg-lux-gold/10 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-lux-gold/10 rounded-full blur-3xl"></div>
+
+                <div class="floating inline-block mb-3">
+                    <i class="fa-solid fa-heart text-lux-gold text-2xl animate-ping"></i>
+                </div>
+
+                <p class="text-lux-gold text-xs md:text-sm font-modern tracking-[0.4em] uppercase mb-4">
+                    Bismillohir Rohmanir Rohiym
+                </p>
+                
+                <h3 class="text-gray-400 font-sans text-sm md:text-lg font-light tracking-widest uppercase mb-4">
+                    To'y Tantanasiga Taklif Etamiz
+                </h3>
+                
+                <div class="my-6">
+                    <h1 class="font-serif text-5xl md:text-8xl font-bold gold-glow-text tracking-tight leading-none drop-shadow-lg">
+                        MIRON & QUMARAY
+                    </h1>
+                </div>
+
+                <p class="text-gray-300 font-serif italic text-lg md:text-2xl mb-6">
+                    "Ikki qalbning abadiy va go'zal rishtasi"
+                </p>
+
+                <div class="inline-flex items-center gap-4 px-6 py-2 rounded-full border border-lux-gold/30 bg-lux-gold/5 mb-8">
+                    <i class="fa-regular fa-calendar-check text-lux-gold"></i>
+                    <span class="text-sm font-modern text-white tracking-widest">25.09.2026 | 18:00</span>
+                </div>
+
+                <!-- Countdown Timer -->
+                <div class="grid grid-cols-4 gap-3 md:gap-6 max-w-xl mx-auto pt-6 border-t border-white/10 mb-8">
+                    <div class="glass-card p-3 md:p-4 rounded-2xl">
+                        <span id="days" class="block text-2xl md:text-3xl font-modern font-bold text-lux-gold">00</span>
+                        <span class="text-[10px] text-gray-400 uppercase tracking-widest">Kun</span>
+                    </div>
+                    <div class="glass-card p-3 md:p-4 rounded-2xl">
+                        <span id="hours" class="block text-2xl md:text-3xl font-modern font-bold text-lux-gold">00</span>
+                        <span class="text-[10px] text-gray-400 uppercase tracking-widest">Soat</span>
+                    </div>
+                    <div class="glass-card p-3 md:p-4 rounded-2xl">
+                        <span id="minutes" class="block text-2xl md:text-3xl font-modern font-bold text-lux-gold">00</span>
+                        <span class="text-[10px] text-gray-400 uppercase tracking-widest">Daqiqa</span>
+                    </div>
+                    <div class="glass-card p-3 md:p-4 rounded-2xl">
+                        <span id="seconds" class="block text-2xl md:text-3xl font-modern font-bold text-lux-gold">00</span>
+                        <span class="text-[10px] text-gray-400 uppercase tracking-widest">Soniya</span>
+                    </div>
+                </div>
+
+                <!-- Next Page Button -->
+                <button onclick="goToPage(2)" class="gold-button px-8 py-4 rounded-full text-dark-900 font-modern text-xs font-bold uppercase tracking-wider inline-flex items-center gap-3">
+                    <span>Taklifnomani O'qish</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- 2-SAHIFA: Taklifnoma va Matn -->
+        <section id="page-2" class="w-full max-w-4xl px-6 py-8 hidden flex-col items-center justify-center text-center">
+            <div class="w-full glass-card p-8 md:p-14 rounded-3xl relative">
+                <div class="w-16 h-16 rounded-full border border-lux-gold/40 flex items-center justify-center mx-auto text-lux-gold mb-6 floating bg-lux-gold/10">
+                    <i class="fa-solid fa-gem text-xl"></i>
+                </div>
+                
+                <span class="text-lux-gold font-modern text-xs tracking-[0.3em] uppercase block mb-2">2-Sahifa</span>
+                
+                <h2 class="text-2xl md:text-4xl font-modern font-bold text-white mb-2 tracking-wide">QADRLI MEHMONIMIZ!</h2>
+                <div class="text-lux-gold font-serif text-2xl md:text-3xl mb-6 font-bold tracking-wider">MIRON & QUMARAY</div>
+                
+                <p class="text-base md:text-xl text-gray-300 font-serif leading-relaxed italic max-w-3xl mx-auto mb-8">
+                    Hayotimizdagi eng muhim va baxtli kunlardan biri bo'lmish — Nikoh To'yimizda sizni va oilangizni chin qalbimizdan ko'rishdan mamnun bo'lamiz. Tashrifingiz to'yimizga o'zgacha fayz bag'ishlaydi.
+                </p>
+
+                <div class="p-6 rounded-2xl border border-lux-gold/20 bg-white/5 max-w-xl mx-auto mb-10 text-left hover:border-lux-gold/50 transition">
+                    <h4 class="text-lux-gold font-modern text-xs font-bold uppercase mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-location-dot"></i> To'yxona Manzili:
+                    </h4>
+                    <p class="text-white font-serif text-xl font-bold">"Versal" Tantanalar Saroyi</p>
+                    <p class="text-gray-400 text-sm mt-1">Toshkent sh., Yunusobod t., Amir Temur ko'chasi 15-uy</p>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="flex items-center justify-between max-w-md mx-auto">
+                    <button onclick="goToPage(1)" class="px-6 py-3 rounded-full border border-white/20 text-white font-modern text-xs uppercase tracking-wider hover:bg-white/10 transition">
+                        <i class="fa-solid fa-arrow-left mr-2"></i> Orqaga
+                    </button>
+                    <button onclick="goToPage(3)" class="gold-button px-6 py-3 rounded-full text-dark-900 font-modern text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                        <span>To'y Dasturi</span> <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3-SAHIFA: To'y Dasturi -->
+        <section id="page-3" class="w-full max-w-4xl px-6 py-8 hidden flex-col items-center justify-center">
+            <div class="w-full glass-card p-8 md:p-14 rounded-3xl relative text-center">
+                <span class="text-lux-gold font-modern text-xs tracking-[0.3em] uppercase block mb-2">3-Sahifa</span>
+                <h2 class="text-3xl md:text-5xl font-modern font-bold text-white mb-2">TO'Y DASTURI</h2>
+                <p class="text-lux-gold font-serif text-lg italic mb-10">Miron va Qumaray Baxt Kechasi Rejasi</p>
+
+                <div class="grid md:grid-cols-2 gap-6 text-left mb-10">
+                    <!-- Event 1 -->
+                    <div class="glass-card p-6 rounded-2xl relative glass-card-hover">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-3xl font-modern font-bold text-lux-gold">15:00</span>
+                            <div class="w-12 h-12 rounded-xl bg-lux-gold/10 text-lux-gold flex items-center justify-center floating">
+                                <i class="fa-solid fa-ring text-xl"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Nikoh Marosimi</h3>
+                        <p class="text-gray-400 text-sm">Muqaddas nikoh bitimining imzolanishi va esdalik fotoseanslari.</p>
+                    </div>
+
+                    <!-- Event 2 -->
+                    <div class="glass-card p-6 rounded-2xl relative glass-card-hover">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-3xl font-modern font-bold text-lux-gold">18:00</span>
+                            <div class="w-12 h-12 rounded-xl bg-lux-gold/10 text-lux-gold flex items-center justify-center floating" style="animation-delay: 1s;">
+                                <i class="fa-solid fa-champagne-glasses text-xl"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Tantanali Oqshom</h3>
+                        <p class="text-gray-400 text-sm">Manzur taomlar, kuy-qo'shiqlar va unutilmas raqslar to'la bayram bazmi.</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="flex items-center justify-between max-w-md mx-auto">
+                    <button onclick="goToPage(2)" class="px-6 py-3 rounded-full border border-white/20 text-white font-modern text-xs uppercase tracking-wider hover:bg-white/10 transition">
+                        <i class="fa-solid fa-arrow-left mr-2"></i> Orqaga
+                    </button>
+                    <button onclick="goToPage(4)" class="gold-button px-6 py-3 rounded-full text-dark-900 font-modern text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                        <span>Galereya & RSVP</span> <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4-SAHIFA: Foto Albom & RSVP -->
+        <section id="page-4" class="w-full max-w-5xl px-6 py-8 hidden flex-col items-center justify-center">
+            <div class="w-full glass-card p-8 md:p-12 rounded-3xl relative">
+                <div class="text-center mb-8">
+                    <span class="text-lux-gold font-modern text-xs tracking-[0.3em] uppercase block mb-1">4-Sahifa</span>
+                    <h2 class="text-3xl md:text-4xl font-modern font-bold text-white">XOTIRALAR & TILAKLAR</h2>
+                    <p class="text-lux-gold font-serif text-base italic mt-1">Miron va Qumaray uchun samimiy dileklar</p>
+                </div>
+
+                <!-- Photos Grid with Hover Effects -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+                    <div class="glass-card rounded-2xl overflow-hidden h-52 relative group">
+                        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80" alt="Miron & Qumaray" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
+                            <span class="text-lux-gold font-serif italic text-sm">Miron & Qumaray</span>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl overflow-hidden h-52 relative group">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="To'y foto" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="glass-card rounded-2xl overflow-hidden h-52 relative group">
+                        <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80" alt="Baxtli kun" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="max-w-xl mx-auto border-t border-white/10 pt-8">
+                    <h3 class="text-lg font-modern font-bold text-white mb-2 text-center">Tashrifingizni Tasdiqlang</h3>
+                    <form id="weddingRsvpForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                        <div>
+                            <input type="text" id="guestName" required placeholder="Ismingiz va Familiyangiz" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-lux-gold transition">
+                        </div>
+                        <div>
+                            <select id="attendance" class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-lux-gold transition">
+                                <option value="albatta">Albatta boraman</option>
+                                <option value="afsuski">Afsuski, bora olmayman</option>
+                            </select>
+                        </div>
+                        <div>
+                            <textarea id="wishes" rows="2" placeholder="Ezgu tilaklaringiz..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-lux-gold transition"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-3 rounded-xl bg-white text-dark-900 font-modern text-xs font-bold uppercase tracking-wider hover:bg-lux-gold transition duration-300">
+                            Yuborish
+                        </button>
+                    </form>
+
+                    <div id="rsvpStatus" class="hidden mt-4 p-4 rounded-xl bg-lux-gold/20 border border-lux-gold text-lux-gold text-xs text-center font-medium">
+                        Rahmat! Javobingiz muvaffaqiyatli qabul qilindi.
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="flex items-center justify-between max-w-md mx-auto mt-8">
+                    <button onclick="goToPage(3)" class="px-6 py-3 rounded-full border border-white/20 text-white font-modern text-xs uppercase tracking-wider hover:bg-white/10 transition">
+                        <i class="fa-solid fa-arrow-left mr-2"></i> Orqaga
+                    </button>
+                    <button onclick="goToPage(1)" class="gold-button px-6 py-3 rounded-full text-dark-900 font-modern text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                        <span>Boshiga qaytish</span> <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 border-t border-white/5 text-center relative z-10 text-gray-500 text-xs font-modern">
+        <p>MIRON & QUMARAY — 2026</p>
+    </footer>
+
+    <!-- Audio Element -->
+    <audio id="bgAudio" loop crossorigin="anonymous">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113527.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- JavaScript logic -->
+    <script>
+        // Page Navigation Logic (Switching between 4 separate screens with animation)
+        function goToPage(pageNum) {
+            for (let i = 1; i <= 4; i++) {
+                const page = document.getElementById(`page-${i}`);
+                const navBtn = document.getElementById(`nav-btn-${i}`);
+                if (i === pageNum) {
+                    page.classList.remove('hidden');
+                    page.classList.add('flex', 'page-transition');
+                    navBtn.classList.add('border-lux-gold', 'text-lux-gold');
+                    navBtn.classList.remove('border-transparent');
+                } else {
+                    page.classList.add('hidden');
+                    page.classList.remove('flex', 'page-transition');
+                    navBtn.classList.remove('border-lux-gold', 'text-lux-gold');
+                    navBtn.classList.add('border-transparent');
+                }
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Init AOS Animations
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+
+        // Background Particles Animation
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.alpha = Math.random() * 0.5 + 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(212, 175, 55, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 60; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Countdown Timer Logic
+        const weddingDate = new Date("September 25, 2026 18:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = weddingDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById("days").innerText = days < 10 ? '0' + days : days;
+                document.getElementById("hours").innerText = hours < 10 ? '0' + hours : hours;
+                document.getElementById("minutes").innerText = minutes < 10 ? '0' + minutes : minutes;
+                document.getElementById("seconds").innerText = seconds < 10 ? '0' + seconds : seconds;
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Audio & "Miron & Qumaray" Voice Song Generator
+        let isPlaying = false;
+        const audio = document.getElementById("bgAudio");
+        const musicIcon = document.getElementById("musicIcon");
+        const musicRipple = document.getElementById("musicRipple");
+
+        let voiceInterval = null;
+
+        // Custom Voice Singing function using Web Speech API
+        function singNames() {
+            if (!isPlaying) return;
+            if ('speechSynthesis' in window) {
+                const phrases = [
+                    "Miron, Miron... Qumaray, Qumaray...",
+                    "Miron va Qumaray, baxtli bo'linglar!",
+                    "Miron, Qumaray..."
+                ];
+                const text = phrases[Math.floor(Math.random() * phrases.length)];
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                utterance.rate = 0.85; // Melodic and soft rate
+                utterance.pitch = 1.1;  // Pleasant voice pitch
+                utterance.volume = 0.9;
+                
+                // Try to find Uzbek or similar soft voice
+                const voices = window.speechSynthesis.getVoices();
+                const selectedVoice = voices.find(v => v.lang.includes('uz') || v.lang.includes('ru') || v.lang.includes('tr')) || voices[0];
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                }
+                
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function toggleAudio() {
+            if (isPlaying) {
+                audio.pause();
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                }
+                if (voiceInterval) clearInterval(voiceInterval);
+                musicIcon.classList.remove("fa-spin");
+                if (musicRipple) musicRipple.classList.add("hidden");
+            } else {
+                audio.play().catch(e => console.log("Audio autoplay prevented"));
+                singNames();
+                if (voiceInterval) clearInterval(voiceInterval);
+                voiceInterval = setInterval(singNames, 9000); // Sings every 9 seconds gracefully
+                musicIcon.classList.add("fa-spin");
+                if (musicRipple) musicRipple.classList.remove("hidden");
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Auto play user interaction listener
+        window.addEventListener('click', function initialPlay() {
+            if (!isPlaying) {
+                toggleAudio();
+            }
+            window.removeEventListener('click', initialPlay);
+        }, { once: true });
+
+        // Preload voices
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                window.speechSynthesis.getVoices();
+            };
+        }
+
+        // RSVP Form handling
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const status = document.getElementById('rsvpStatus');
+            status.classList.remove('hidden');
+            document.getElementById('weddingRsvpForm').reset();
+        }
+    </script>
+</body>
+</html>
